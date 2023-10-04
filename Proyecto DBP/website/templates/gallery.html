@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Gallery</h1>
+
+    <!-- display the existing images from the server or database -->
+    <div id="image-gallery" class="row">
+        {% for image in images %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ image.url }}" class="card-img-top" alt="{{ image.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ image.title }}</h5>
+                        <p class="card-text">{{ image.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- add new images -->
+    <h2 class="mt-4">Add New Images</h2>
+    <form id="image-upload-form" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="image-file">Choose an image:</label>
+            <input 
+                type="file" 
+                class="form-control-file" 
+                id="image-file" 
+                name="image-file" 
+                accept="image/*" 
+                multiple
+                >
+        </div>
+        <button type="submit" class="btn btn-primary">Upload Images</button>
+    </form>
+{% endblock %}
