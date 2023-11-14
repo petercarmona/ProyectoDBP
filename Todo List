@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+
+        #completarTodo{
+            margin-top: 5px;
+        }
+    </style>
+
+    <title>Todo List</title>
+</head>
+<body>
+    <form id="nueva_tarea">
+        <input id="tarea" autocomplete="off" autofocus placeholder="Nueva Tarea" type="text">
+        <input type="submit" value="Agregar a la lista">
+    </form>
+    <!-- Creando el botón para completar todas las tareas la mismo tiempo -->
+    <button id="completarTodo">Completar Todo</button>
+    
+    <ol id="tareas">
+    </ol>    
+    <!-- Separaciion modular de los códigos -->
+    <!-- Script #1: Manejo y gestión de la lista y la funcion de rayadura -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('#nueva_tarea').onsubmit = (event) => {
+                event.preventDefault(); 
+
+                // Nuevo elementoa la lista
+                const li = document.createElement('li');
+
+                // Se crea el checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+
+                // Cambio de estilo a "rayado" si se cumple el condicional
+                checkbox.onchange = function() {
+                    if (this.checked) {
+                        li.classList.add('completed');
+                    } else {
+                        li.classList.remove('completed');
+                    }
+                };
+
+                // Se adjunta un objeto (checkbox)
+                li.appendChild(checkbox);
+
+                // Se adjunta un nombre
+                const taskName = document.createElement('span');
+                taskName.textContent = document.querySelector('#tarea').value;
+                li.appendChild(taskName);
+
+                // Se crea el botón de cierre
+                const closeButton = document.createElement('button');
+                closeButton.innerHTML = 'X';
+
+                // función de eliminado
+                closeButton.onclick = function() {
+                    li.remove();
+                };
+
+                // Se adjunta el botón X a la lista ordenada
+                li.appendChild(closeButton);
+
+                // Se agrela el nuevo elemento a la lista
+                document.querySelector('#tareas').append(li);
+
+                // Se limpia el campo de entrada
+                document.querySelector('#tarea').value = '';
+            };
+        });
+    </script>
+
+    <!-- Script #2: Manejo de la funcionalidad del botón "Completar Todo" -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('#completarTodo').addEventListener('click', function () {
+                const taskList = document.querySelectorAll('#tareas li');
+                taskList.forEach(task => {
+                    task.querySelector('input[type="checkbox"]').checked = true;
+                    task.classList.add('completed');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
